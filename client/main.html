@@ -1,0 +1,184 @@
+
+
+<head>
+  <title>Site Aggregator</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"> 
+</head>
+
+<body>
+  <!-- navbar  - you will be putting the login functions here -->
+
+</body>
+
+<template name="ApplicationLayout">
+  <div class="container">
+    {{> yield "navbar"}}
+    {{> yield "main1"}}
+    {{> yield "main2"}}
+  </div>
+</template>
+
+
+<template name="navbar">
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand " href="/">
+          Site Aggregator
+        </a>
+        
+      </div>
+      <div class="text-right">
+          {{> loginButtons align="right"}}
+        </div>
+    </div>
+  </nav>
+</template>
+
+<template name="website_form">
+  <div class="container">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="website__form__container">
+        
+        <div class="text-right">
+          <a class="js-toggle-website-form" href="#">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+          </a>
+        </div>
+
+        <div id="website_form" class="hidden_div">
+          <form class="js-save-website-form">
+            <div class="form-group">
+              <label for="url">Site address</label>
+              <input type="text" class="form-control" id="url" placeholder="mysite.com">
+            </div>
+            <div class="form-group">
+              <label for="title">Title</label>
+              <input type="text" class="form-control" id="title" placeholder="Mysite">
+            </div>
+              <div class="form-group">
+              <label for="description">Description</label>
+              <input type="text" class="form-control" id="description" placeholder="I found this site really useful for ...">
+            </div>
+
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+        </div>
+
+      </div>
+    </div>  
+  </div>
+</template>
+
+<!-- template that displays several website items -->
+<template name="website_list">
+  <div class="container ">
+    <ol>
+      {{#each websites}}
+        {{>website_item}}
+      {{/each}}
+    </ol>
+  </div>
+</template>
+
+<!-- template that displays individual website entries -->
+<template name="website_item">
+  <div class="row ">
+    <div class="website__item__container ">
+
+      <div class="col-md-1 col-md-offset-2 col-xs-1">
+        <div class="website__item__arrows__container">
+          <a href="#" class="js-upvote">
+            <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+          </a>
+          {{votes}}
+          <a href="#" class=" js-downvote">
+            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+          </a>    
+        </div>
+      </div>
+
+
+      <div class="col-md-6 col-xs-10">
+        <li>
+          <a href="{{url}}">{{title}}</a>
+          <p>
+            {{description}} 
+          </p>
+        </li>
+      </div>
+
+      <div class="col-md-1 col-xs-1">
+        <div class="website__item__more__container">
+          <a href="{{_id}}">
+            <span class="glyphicon glyphicon-menu-right"></span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</template>
+
+
+<template name="website_item_detail">
+  <div class="website_item_detail__container">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <a href="{{url}}">
+        <h1>{{title}}</h1>
+      </a>  
+      <div class="row">
+        <div class="col-md-1 col-xs-2">
+          <div class="website__item__arrows__container">
+            <a href="#" class="js-upvote">
+              <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+            </a>
+            {{votes}}
+            <a href="#" class=" js-downvote">
+              <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+            </a>    
+          </div>
+        </div>
+
+        <div class="col-md-11 col-xs-10">
+          <p>{{description}}</p>  
+        </div>  
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="comments__container">
+        <h3>Comments</h3>
+        <ul>
+          {{#each comments}}
+            <li class="comments__li ">
+                <a href="mailto:{{this.user}}"><p class="alignLeft comments__user">{{this.user}}</p></a>  
+                <p class="alignRight comments__time">{{this.commentedOn}}</p>
+                <div class="clear"></div>
+                <p class="comments__comments">{{this.comments}}
+                </p>
+            </li>
+          {{/each}}
+
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-md-offset-4">
+      <form class="js-comment-website-form">
+        <div class="form-group">
+          <label for="comments"></label>
+            <textarea class="form-control" rows="5" id="comments"></textarea>
+          </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+    </div>  
+  </div>
+  </div>
+</template>
+
+
+
